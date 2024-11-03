@@ -5,7 +5,7 @@ interface EmailTemplateProps {
   otp: string;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
+ const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   username,otp
 }) => (
   <div>
@@ -15,3 +15,5 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
     </p>
   </div>
 );
+
+export default EmailTemplate;

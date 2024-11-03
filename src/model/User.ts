@@ -1,5 +1,5 @@
 import mongoose , {Schema , Document } from "mongoose";
-
+// this is the schema for the message
 export interface Message extends Document {
 content: string;
 createdAt: Date;
