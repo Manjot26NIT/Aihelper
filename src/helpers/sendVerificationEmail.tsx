@@ -1,30 +1,42 @@
-import {resend} from "@/lib/resend";
+import nodemailer, { Transporter } from 'nodemailer';
 import {ApiResponse} from "@/types/apiResponse";
-import VerificationEmail from "../../emails/VerificationEmail";
+const transporter: Transporter = nodemailer.createTransport({
+    service: 'gmail', 
+    auth: {
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
+    },
+});
 
-export async function sendVerificationEmail(
-    email:string,
-    username:string,
-    verifycode:string
-):Promise<ApiResponse>{
-    try {
-        await resend.emails.send({
-          from:'',
-          to:'',
-          subject:'',
-          react:VerificationEmail({username,otp:verifycode}),  
-        })
 
-        return {
-            success: true,
-            message: 'Verification email sent',
+const sendEmail = async (email:string,username:string,verifyCode:string): Promise<ApiResponse> => {
+    
+    const mailOptions = {
+        from: 'Noctis', 
+        to: email, 
+        "subject": "Verify your email", 
+     text: `Hello ${username}, please verify your email with the code: ${verifyCode}`
+       
+    };
 
-        }
-    } catch (error) {
-        return {
-            success: false,
-            message: 'Error sending verification email',
-        }
-        console.log("Error Sending Verification",error)
+    
+try {
+    
+    await transporter.sendMail(mailOptions);
+    return {
+        success: true,
+        message: 'Verification email sent',
+    };
+        
+} catch (error) {
+    console.error('Error sending verification email:', error);
+    return {
+        success: false,
+        message: 'Error sending verification email_1',
     }
+};
+
 }
+
+
+export default sendEmail;
